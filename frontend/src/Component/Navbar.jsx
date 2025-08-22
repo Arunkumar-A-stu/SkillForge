@@ -3,11 +3,10 @@ import Button from './Button'
 import Logo from '/favicon.svg'
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
-import ThemeToggle from './ThemeToggle'
+import ProfileDropdown from './ProfileDropDown';
 
-export default function Navbar({ onSignInClick }) {
-
-  const [isOpen, setIsOpen] = useState(false); 
+export default function Navbar({ isLoggedIn, username, onSignInClick, onLogout }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId).scrollIntoView({
@@ -17,28 +16,41 @@ export default function Navbar({ onSignInClick }) {
 
   return (
     <nav className="bg-white w-full max-h-16 flex justify-between items-center p-4 gap-4">
-        <img src={Logo} alt="Logo" className="h-12 w-10 cursor-pointer" />
-        <div className="hidden md:flex gap-10 text-gray-700 ">
-          <p className=" p-1 text-xl rounded-sm transition duration-200 hover:text-blue-700 hover:scale-100 hover:bg-gray-100 cursor-pointer active focus:bg-gray-100 active:bg-gray-200" onClick={() => scrollToSection('hero')}>Home</p>
-          <p className=" p-1 text-xl rounded-sm transition duration-200 hover:text-blue-700 hover:scale-100 hover:bg-gray-100 cursor-pointer active focus:bg-gray-100 active:bg-gray-200" onClick={() => scrollToSection('features')}>Features</p>
-          <p className=" p-1 text-xl rounded-sm transition duration-200 hover:text-blue-700 hover:scale-100 hover:bg-gray-100 cursor-pointer active focus:bg-gray-100 active:bg-gray-200" onClick={() => scrollToSection('stats')}>Stats</p>
-        </div>
-        <div className=' flex flex-col p-2 gap-4 justify-between items-center hidden md:block'>
-          <Button title="Sign In" onClick={onSignInClick} />
-        </div>
- 
-        
-        <div className="md:hidden">
-          {isOpen ? (<IoMdClose className="text-2xl" onClick={() => setIsOpen(false)} />):(<GiHamburgerMenu className="text-2xl" onClick={() => setIsOpen(true)} />)}
-        </div>
+      {/* Logo */}
+      <img src={Logo} alt="Logo" className="h-12 w-10 cursor-pointer" />
 
-              {isOpen && (
-                <div className="absolute top-16 left-0 w-full bg-white flex flex-col items-center gap-6 py-6 shadow-md md:hidden z-50">
-                  <p className="text-xl hover:text-blue-700 cursor-pointer" onClick={() => scrollToSection('hero')}>Home</p>
-                  <p className="text-xl hover:text-blue-700 cursor-pointer" onClick={() => scrollToSection('features')}>Features</p>
-                  <p className="text-xl hover:text-blue-700 cursor-pointer" onClick={() => scrollToSection('stats')}>Stats</p>
-                  <Button title="Sign In" onClick={onSignInClick} />
-                </div>
+      {/* Desktop links */}
+      <div className="hidden md:flex gap-10 text-gray-700">
+        <p onClick={() => scrollToSection('hero')} className="p-1 text-xl hover:text-blue-700 hover:bg-gray-100 cursor-pointer">Home</p>
+        <p onClick={() => scrollToSection('features')} className="p-1 text-xl hover:text-blue-700 hover:bg-gray-100 cursor-pointer">Features</p>
+        <p onClick={() => scrollToSection('stats')} className="p-1 text-xl hover:text-blue-700 hover:bg-gray-100 cursor-pointer">Stats</p>
+      </div>
+
+      {/* Desktop Auth/Profile */}
+      <div className="hidden md:block">
+        {isLoggedIn 
+          ? <ProfileDropdown username={username} onLogout={onLogout} /> 
+          : <Button title="Sign In" onClick={onSignInClick} />}
+      </div>
+
+      {/* Mobile menu button */}
+      <div className="md:hidden">
+        {isOpen 
+          ? <IoMdClose className="text-2xl" onClick={() => setIsOpen(false)} /> 
+          : <GiHamburgerMenu className="text-2xl" onClick={() => setIsOpen(true)} />}
+      </div>
+
+      {/* Mobile menu dropdown */}
+      {isOpen && (
+        <div className="absolute top-16 left-0 w-full bg-white flex flex-col items-center gap-6 py-6 shadow-md md:hidden z-50">
+          <p onClick={() => scrollToSection('hero')} className="text-xl hover:text-blue-700 cursor-pointer">Home</p>
+          <p onClick={() => scrollToSection('features')} className="text-xl hover:text-blue-700 cursor-pointer">Features</p>
+          <p onClick={() => scrollToSection('stats')} className="text-xl hover:text-blue-700 cursor-pointer">Stats</p>
+
+          {isLoggedIn 
+            ? <ProfileDropdown username={username} onLogout={onLogout} /> 
+            : <Button title="Sign In" onClick={onSignInClick} />}
+        </div>
       )}
     </nav>
   )

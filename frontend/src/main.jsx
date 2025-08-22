@@ -2,14 +2,23 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import LandingPage from './Pages/LandingPage.jsx'
+import AuthPage from './Pages/AuthPage.jsx'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
-const route = createBrowserRouter([
-  { path:'/',element:<App/> }
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,   // App will render Navbar + Footer + Outlet
+    children: [
+      { path: "/", element: <LandingPage /> },
+      { path: "/auth", element: <AuthPage /> },
+    ]
+  }
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={route} />
+    <RouterProvider router={router} />
   </StrictMode>,
 )

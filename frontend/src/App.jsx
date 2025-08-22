@@ -1,25 +1,39 @@
-import { useState } from 'react'
+import {  useNavigate, Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
 import './App.css'
 import Navbar from './Component/Navbar'
 import Footer from './Component/Footer'
-import AuthPage from './Pages/AuthPage'
-import LandingPage from './Pages/LandingPage'
 
 function App() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  setUser(null);
+  navigate("/");
+};
 
-  const [showAuth, setShowAuth] = useState(false);
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   return (
-    <>
       <div className="flex flex-col min-h-screen overflow-x-hidden overflow-y-hidden w-full">
         <header>
-          <Navbar onSignInClick={() => setShowAuth(true)} />
+          <Navbar isLoggedIn={!!user}
+          username={user?.name}
+          onSignInClick={ () => navigate("/auth")}
+          onLogout={handleLogout} />
         </header>
-        {showAuth ? <AuthPage /> : <LandingPage/>}
+
+        <Outlet context={{ setUser }} />
         <Footer />
       </div>
-    </>
   );
 }
 
-export default App
+export default App;
