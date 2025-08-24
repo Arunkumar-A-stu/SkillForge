@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import { AuroraText } from "@/components/magicui/aurora-text";
+import { motion, useTransform } from "motion/react";
+
 
 import CodeBlock from "@/Component/CodeBlock";
 
-export default () => {
+export default ({scrollY}) => {
   const [state, setState] = useState(false);
 
-  // Replace javascript:void(0) paths with your paths
-  const navigation = [
-    { title: "Explore", path: "javascript:void(0)" },
-    { title: "About Us", path: "javascript:void(0)" },
-    { title: "Problems", path: "javascript:void(0)" },
-    { title: "Contest", path: "javascript:void(0)" },
-  ];
+  const positionX = useTransform(scrollY, [0, window.innerWidth], [0,-window.innerWidth]);
+  const scale = useTransform(scrollY, [0, window.innerHeight], [1,0.5]);
 
   useEffect(() => {
     document.onclick = (e) => {
@@ -22,11 +19,11 @@ export default () => {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative w-full overflow-hidden ">
       <div className="relative h-full">
-        <section className="h-[540px] py-20">
+        <section className="h-[540px] py-20 ">
           <div className="max-w-screen-xl mx-auto px-4 py-28 gap-12 text-gray-600 overflow-hidden md:px-8 md:flex">
-            <div className="flex-none space-y-5 max-w-xl">
+            <motion.div style={{ x: positionX, scale: scale }} className="flex-none space-y-5 max-w-xl">
               <h1 className="text-4xl text-black font-bold sm:text-5xl">
                 Forge Your Coding Future
               </h1>
@@ -80,10 +77,10 @@ export default () => {
                   </svg>
                 </a>
               </div>
-            </div>
-            <div className="flex-1 hidden md:block">
+            </motion.div>
+            <div className="flex-1 w-full hidden md:block">
               {/* Replace with your image */}
-              <CodeBlock />
+              <CodeBlock scrollY={scrollY} />
             </div>
           </div>
         </section>

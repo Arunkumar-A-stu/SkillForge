@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronDown } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+
 
 export default function ProfileDropdown({ username, onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,19 +47,19 @@ export default function ProfileDropdown({ username, onLogout }) {
             <div className="py-1">
               <a
                 href="/dashboard"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:rounded-lg hover:text-blue-600"
               >
                 Dashboard
               </a>
               <a
                 href="/profile"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:rounded-lg hover:text-blue-600"
               >
                 Profile
               </a>
               <button
                 onClick={onLogout}
-                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:rounded-lg "
               >
                 Logout
               </button>

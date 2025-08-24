@@ -1,3 +1,6 @@
+import { fadeIn } from '../variants'
+import { motion } from 'motion/react'
+
 export default () => {
 
     const features = [
@@ -52,38 +55,48 @@ export default () => {
     ]
 
     return (
-        <section className="py-14 h-screen">
-            <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
-                <div className="relative max-w-2xl mx-auto sm:text-center">
-                    <div className="relative z-10">
-                        <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
-                            Let’s help you forge coding mastery
-                        </h3>
-                        <p className="mt-3">
-                            Sharpen your coding skills with real-world challenges, progress tracking, and personalized learning paths.
-                        </p>
-                    </div>
-                </div>
-                <div className="relative mt-12">
-                    <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                        {
-                            features.map((item, idx) => (
-                                <li key={idx} className="bg-white space-y-3 p-4 border rounded-lg">
-                                    <div className="text-indigo-600 pb-3">
-                                        {item.icon}
-                                    </div>
-                                    <h4 className="text-lg text-gray-800 font-semibold">
-                                        {item.title}
-                                    </h4>
-                                    <p>
-                                        {item.desc}
-                                    </p>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </div>
-            </div>
-        </section>
-    )
+      <section className="py-14 h-screen">
+        <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
+          <div className="relative max-w-2xl mx-auto sm:text-center">
+            <motion.div
+              className="relative z-10"
+            >
+              <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+                Let’s help you forge coding mastery
+              </h3>
+              <p className="mt-3">
+                Sharpen your coding skills with real-world challenges, progress
+                tracking, and personalized learning paths.
+              </p>
+            </motion.div>
+          </div>
+          <motion.div
+            className="relative mt-12"
+          >
+            <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {features.map((item, idx) => (
+                <motion.li
+                  key={idx}
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: idx * 0.2,
+                    ease: "easeOut",
+                  }}
+                  viewport={{ once: false, amount: 0.2 }}
+                  className="bg-white space-y-3 p-4 border rounded-lg"
+                >
+                  <div className="text-indigo-600 pb-3">{item.icon}</div>
+                  <h4 className="text-lg text-gray-800 font-semibold">
+                    {item.title}
+                  </h4>
+                  <p>{item.desc}</p>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+      </section>
+    );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Prism from "prismjs";
+import { motion, useTransform } from "motion/react";
 
 // grammars
 import "prismjs/components/prism-clike";
@@ -33,12 +34,16 @@ function usePrismTheme(theme) {
   }, [theme]);
 }
 
-export default function CodeBlock() {
+export default function CodeBlock({ scrollY }) {
   const [language, setLanguage] = useState("java");
   const [theme, setTheme] = useState("light");
   const [typedCode, setTypedCode] = useState("");
   const [copied, setCopied] = useState(false);
   const codeRef = useRef(null);
+
+  const positionX = useTransform(scrollY, [0, window.innerWidth], [0, window.innerWidth]);
+  const scale = useTransform(scrollY, [0, window.innerHeight], [1, 0.5]);
+
 
   usePrismTheme(theme);
 
@@ -62,6 +67,8 @@ int main() {
     }
 }`,
   };
+
+  
 
   // Typing effect + re-highlight on language change
   useEffect(() => {
@@ -95,7 +102,8 @@ int main() {
   };
 
   return (
-    <div
+    <motion.div
+      style={{ x: positionX, scale: scale }}
       className={` ${
     theme === "dark" ? "bg-[#272822]" : "bg-[#f5f2f0]"
   } rounded-xl shadow-2xl overflow-hidden w-full max-w-2xl mx-auto border`}
@@ -156,6 +164,6 @@ int main() {
           <span className="ml-1 animate-pulse">|</span>
         </pre>
       </div>
-    </div>
+    </motion.div>
   );
 }
