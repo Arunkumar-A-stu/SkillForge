@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import './App.css'
 import Navbar from './Component/Navbar'
 import Footer from './Component/Footer'
+import LandingPage from "./Pages/LandingPage";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -22,18 +23,7 @@ function App() {
   }, []);
 
   return (
-      <div className="flex flex-col min-h-screen overflow-x-hidden overflow-y-hidden w-full">
-        <header>
-          <Navbar isLoggedIn={!!user}
-          username={user?.name}
-          onSignInClick={ () => navigate("/auth")}
-          onLogout={handleLogout} 
-          className='fixed top-0 left-0 right-0 z-50'/>
-        </header>
-
-        <Outlet context={{ setUser }} />
-        <Footer />
-      </div>
+    <LandingPage />
   );
 }
 
